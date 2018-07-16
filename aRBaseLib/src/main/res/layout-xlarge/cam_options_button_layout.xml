@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonFrameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:weightSum="8">
+
+        <LinearLayout
+            android:id="@+id/button_options_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/button_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_options" />
+
+            <TextView
+                android:id="@+id/button_options_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/overlock_sc"
+                android:text="@string/options"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_tab_verytiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_flash_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/button_flash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_ar_flash" />
+
+            <TextView
+                android:id="@+id/button_flash_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/overlock_sc"
+                android:text="@string/flash"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_tab_verytiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_hdr_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/button_hdr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_hdr_on" />
+
+            <TextView
+                android:id="@+id/button_hdr_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/hdr"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_tab_verytiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_auto_scene_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/button_auto_scene"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_auto_scene_on" />
+
+            <TextView
+                android:id="@+id/button_auto_scene_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auto"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_tab_verytiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_white_balance_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/button_white_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_auto_white_balance" />
+
+            <TextView
+                android:id="@+id/button_white_balance_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/white_balance"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_tab_verytiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_auto_focus_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/button_auto_focus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_auto_focus_on" />
+
+            <TextView
+                android:id="@+id/button_auto_focus_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auto_focus"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_tab_verytiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_continuous_scene_focus_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/button_continuous_scene_focus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_focus_continuous_picture_on" />
+
+            <TextView
+                android:id="@+id/button_continuous_scene_focus_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/continuous"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_tab_verytiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_steady_on_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/button_steady_on"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_steady_off" />
+
+            <TextView
+                android:id="@+id/button_steady_on_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/steady_shot"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_tab_verytiny" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

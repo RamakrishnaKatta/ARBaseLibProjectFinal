@@ -1,40 +1,3 @@
-/*
- *  ARToolKit.java
- *  ARToolKit5
- *
- *  This file is part of ARToolKit.
- *
- *  ARToolKit is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  ARToolKit is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with ARToolKit.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  As a special exception, the copyright holders of this library give you
- *  permission to link this library with independent modules to produce an
- *  executable, regardless of the license terms of these independent modules, and to
- *  copy and distribute the resulting executable under terms of your choice,
- *  provided that you also meet, for each linked independent module, the terms and
- *  conditions of the license of that module. An independent module is a module
- *  which is neither derived from nor based on this library. If you modify this
- *  library, you may extend this exception to your version of the library, but you
- *  are not obligated to do so. If you do not wish to do so, delete this exception
- *  statement from your version.
- *
- *  Copyright 2015 Daqri, LLC.
- *  Copyright 2011-2015 ARToolworks, Inc.
- *
- *  Author(s): Julian Looser, Philip Lamb
- *
- */
-
 package org.artoolkit.ar.base;
 
 import android.graphics.Bitmap;
@@ -67,7 +30,7 @@ public class ARToolKit {
     static {
         loadedNative = NativeInterface.loadNativeLibrary();
         if (!loadedNative) Log.e(TAG, "Loading native library failed!");
-        else Log.i(TAG, "Loaded native library.");
+        else Log.e(TAG, "Loaded native library.");
     }
 
     private int frameWidth;
@@ -88,7 +51,7 @@ public class ARToolKit {
      * Private constructor as required by the singleton pattern.
      */
     private ARToolKit() {
-        Log.i(TAG, "ARToolKit(): ARToolKit constructor");
+        Log.e(TAG, "ARToolKit(): ARToolKit constructor");
     }
 
     /**
@@ -116,7 +79,7 @@ public class ARToolKit {
             Log.e(TAG, "initialiseNative(): Error initialising native library!");
             return false;
         }
-        Log.i(TAG, "initialiseNative(): ARToolKit version: " + NativeInterface.arwGetARToolKitVersion());
+        Log.e(TAG, "initialiseNative(): ARToolKit version: " + NativeInterface.arwGetARToolKitVersion());
         if (!NativeInterface.arwChangeToResourcesDir(resourcesDirectoryPath)) {
             Log.i(TAG, "initialiseNative(): Error while attempting to change working directory to resources directory.");
         }
@@ -130,6 +93,7 @@ public class ARToolKit {
      *
      * @return true if native functions are available.
      */
+    @SuppressWarnings("unused")
     public boolean nativeInitialised() {
         return initedNative;
     }
@@ -174,6 +138,7 @@ public class ARToolKit {
      *
      * @return The debug image Bitmap.
      */
+    @SuppressWarnings("unused")
     public Bitmap updateDebugBitmap() {
 
         if (!initedNative) return null;
@@ -199,7 +164,6 @@ public class ARToolKit {
         debugBitmap.setPixels(debugImageColors, 0, w, 0, 0, w, h);
 
         return debugBitmap;
-
     }
 
     /**
@@ -207,6 +171,7 @@ public class ARToolKit {
      *
      * @return The debug video Bitmap.
      */
+    @SuppressWarnings("unused")
     public Bitmap getDebugBitmap() {
         return debugBitmap;
     }
@@ -216,6 +181,7 @@ public class ARToolKit {
      *
      * @return Whether the ARToolKit debug video image is enabled.
      */
+    @SuppressWarnings("unused")
     public boolean getDebugMode() {
         if (!initedNative) return false;
         return NativeInterface.arwGetVideoDebugMode();
@@ -226,6 +192,7 @@ public class ARToolKit {
      *
      * @param debug Whether or not to enable the debug video image.
      */
+    @SuppressWarnings("unused")
     public void setDebugMode(boolean debug) {
         if (!initedNative) return;
         NativeInterface.arwSetVideoDebugMode(debug);
@@ -238,6 +205,7 @@ public class ARToolKit {
      * @return The current threshold value in the range 0 to 255, or -1 if the
      * threshold could not be retrieved.
      */
+    @SuppressWarnings("unused")
     public int getThreshold() {
         if (!initedNative) return -1;
         return NativeInterface.arwGetVideoThreshold();
@@ -248,6 +216,7 @@ public class ARToolKit {
      *
      * @param threshold The new threshold value in the range 0 to 255.
      */
+    @SuppressWarnings("unused")
     public void setThreshold(int threshold) {
         if (!initedNative) return;
         NativeInterface.arwSetVideoThreshold(threshold);
@@ -275,6 +244,7 @@ public class ARToolKit {
      *            (see the Wrapper project for more details: lib/SRC/ARWrapper/ARMarker.cpp/ARMarker::newWithConfig)
      * @return The unique identifier (UID) of the new marker, or -1 on error.
      */
+    @SuppressWarnings("unused")
     public int addMarker(String cfg) {
         if (!initedNative) return -1;
         return NativeInterface.arwAddMarker(cfg);
@@ -286,6 +256,7 @@ public class ARToolKit {
      * @param markerUID The unique identifier (UID) of the marker to query.
      * @return true if the marker is visible and tracked in the current video frame.
      */
+    @SuppressWarnings("unused")
     public boolean queryMarkerVisible(int markerUID) {
         if (!initedNative) return false;
         return NativeInterface.arwQueryMarkerVisibility(markerUID);
@@ -345,10 +316,12 @@ public class ARToolKit {
         initedNative = false;
     }
 
+    @SuppressWarnings("unused")
     public float getBorderSize() {
         return NativeInterface.arwGetBorderSize();
     }
 
+    @SuppressWarnings("unused")
     public void setBorderSize(float size) {
         NativeInterface.arwSetBorderSize(size);
     }
@@ -389,6 +362,7 @@ public class ARToolKit {
      * @param markerId2       Marker to which the distance is calculated
      * @return distance
      */
+    @SuppressWarnings("unused")
     public float distance(int referenceMarker, int markerId2) {
 
         float[] referenceMatrix = calculateReferenceMatrix(referenceMarker, markerId2);
@@ -414,6 +388,7 @@ public class ARToolKit {
      * @param markerIdToGetThePositionFor Id of the marker for which the position is calculated
      * @return Position vector with length 4 x,y,z,1
      */
+    @SuppressWarnings("unused")
     public float[] retrievePosition(int referenceMarkerId, int markerIdToGetThePositionFor) {
         float[] initialVector = {1f, 1f, 1f, 1f};
         float[] positionVector = new float[4];
@@ -425,5 +400,4 @@ public class ARToolKit {
         }
         return null;
     }
-
 }

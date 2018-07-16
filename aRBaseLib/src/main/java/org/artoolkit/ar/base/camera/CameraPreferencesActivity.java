@@ -1,40 +1,3 @@
-/*
- *  CameraPreferencesActivity.java
- *  ARToolKit5
- *
- *  This file is part of ARToolKit.
- *
- *  ARToolKit is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  ARToolKit is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with ARToolKit.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  As a special exception, the copyright holders of this library give you
- *  permission to link this library with independent modules to produce an
- *  executable, regardless of the license terms of these independent modules, and to
- *  copy and distribute the resulting executable under terms of your choice,
- *  provided that you also meet, for each linked independent module, the terms and
- *  conditions of the license of that module. An independent module is a module
- *  which is neither derived from nor based on this library. If you modify this
- *  library, you may extend this exception to your version of the library, but you
- *  are not obligated to do so. If you do not wish to do so, delete this exception
- *  statement from your version.
- *
- *  Copyright 2015 Daqri, LLC.
- *  Copyright 2013-2015 ARToolworks, Inc.
- *
- *  Author(s): Philip Lamb
- *
- */
-
 package org.artoolkit.ar.base.camera;
 
 import android.annotation.TargetApi;
@@ -110,84 +73,58 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String TAG = "CameraPreferences";
     private static final PixelSizeToAspectRatio aspectRatios[] = new PixelSizeToAspectRatio[]{
-            new PixelSizeToAspectRatio(1, 1, ASPECT_RATIO._1_1, "1:1"), // 1.0:
-            new PixelSizeToAspectRatio(11, 9, ASPECT_RATIO._11_9, "11:9"), // 1.222:
-            // 176x144
-            // (QCIF),
-            // 352x288
-            // (CIF)
-            new PixelSizeToAspectRatio(5, 4, ASPECT_RATIO._5_4, "5:4"), // 1.25:
-            // 1280x1024
-            // (SXGA),
-            // 2560x2048
-            new PixelSizeToAspectRatio(4, 3, ASPECT_RATIO._4_3, "4:3"), // 1.333:
-            // 320x240
-            // (QVGA),
-            // 480x360,
-            // 640x480
-            // (VGA),
-            // 768x576
-            // (576p),
-            // 800x600
-            // (SVGA),
-            // 960x720,
-            // 1024x768
-            // (XGA),
-            // 1152x864,
-            // 1280x960,
-            // 1400x1050,
-            // 1600x1200,
-            // 2048x1536
-            new PixelSizeToAspectRatio(3, 2, ASPECT_RATIO._3_2, "3:2"), // 1.5:
-            // 240x160,
-            // 480x320,
-            // 960x640,
-            // 720x480
-            // (480p),
-            // 1152x768,
-            // 1280x854,
-            // 1440x960
-            new PixelSizeToAspectRatio(14, 9, ASPECT_RATIO._14_9, "14:9"), // 1.556:
-            new PixelSizeToAspectRatio(8, 5, ASPECT_RATIO._8_5, "8:5"), // 1.6:
-            // 320x200,
-            // 1280x800,
-            // 1440x900,
-            // 1680x1050,
-            // 1920x1200,
-            // 2560x1600
-            new PixelSizeToAspectRatio(5, 3, ASPECT_RATIO._5_3, "5:3"), // 1.667:
-            // 800x480,
-            // 1280x768,
-            // 1600x960
-            new PixelSizeToAspectRatio(16, 9, ASPECT_RATIO._16_9, "16:9"), // 1.778:
-            // 1280x720
-            // (720p),
-            // 1920x1080
-            // (1080p)
-            new PixelSizeToAspectRatio(9, 5, ASPECT_RATIO._9_5, "9:5"), // 1.8:
-            // 864x480
-            new PixelSizeToAspectRatio(17, 9, ASPECT_RATIO._17_9, "17:9"), // 1.889:
-            // 2040x1080
+            new PixelSizeToAspectRatio(1, 1, ASPECT_RATIO._1_1, "1:1"),
+            // 1.0:
+            new PixelSizeToAspectRatio(11, 9, ASPECT_RATIO._11_9, "11:9"),
+            // 1.222: 176x144, (QCIF), 352x288, (CIF)
+            new PixelSizeToAspectRatio(5, 4, ASPECT_RATIO._5_4, "5:4"),
+            // 1.25: 1280x1024, (SXGA), 2560x2048
+            new PixelSizeToAspectRatio(4, 3, ASPECT_RATIO._4_3, "4:3"),
+            // 1.333: 320x240, (QVGA), 480x360, 640x480, (VGA), 768x576, (576p), 800x600, (SVGA), 960x720, 1024x768, (XGA), 1152x864, 1280x960, 1400x1050, 1600x1200, 2048x1536
+            new PixelSizeToAspectRatio(3, 2, ASPECT_RATIO._3_2, "3:2"),
+            // 1.5: 240x160, 480x320, 960x640, 720x480, (480p), 1152x768, 1280x854, 1440x960
+            new PixelSizeToAspectRatio(14, 9, ASPECT_RATIO._14_9, "14:9"),
+            // 1.556:
+            new PixelSizeToAspectRatio(8, 5, ASPECT_RATIO._8_5, "8:5"),
+            // 1.6: 320x200, 1280x800, 1440x900, 1680x1050, 1920x1200, 2560x1600
+            new PixelSizeToAspectRatio(5, 3, ASPECT_RATIO._5_3, "5:3"),
+            // 1.667: 800x480, 1280x768, 1600x960
+            new PixelSizeToAspectRatio(16, 9, ASPECT_RATIO._16_9, "16:9"),
+            // 1.778: 1280x720, (720p), 1920x1080, (1080p)
+            new PixelSizeToAspectRatio(9, 5, ASPECT_RATIO._9_5, "9:5"),
+            // 1.8: 864x480
+            new PixelSizeToAspectRatio(17, 9, ASPECT_RATIO._17_9, "17:9"),
+            // 1.889: 2040x1080
 
             // Some values that are close to standard ratios.
-            new PixelSizeToAspectRatio(683, 384, ASPECT_RATIO._16_9, "16:9"), // ~1.778:
-            // 1366x768
-            new PixelSizeToAspectRatio(85, 48, ASPECT_RATIO._16_9, "16:9"), // ~1.778:
-            // 1360x768
-            new PixelSizeToAspectRatio(256, 135, ASPECT_RATIO._17_9, "17:9"), // ~1.889:
-            // 2048x1080
-            // (2K)
-            new PixelSizeToAspectRatio(512, 307, ASPECT_RATIO._5_3, "5:3"), // ~1.667:
-            // 1024x614
-            new PixelSizeToAspectRatio(30, 23, ASPECT_RATIO._4_3, "4:3"), // ~1.333:
-            // 480x368
-            new PixelSizeToAspectRatio(128, 69, ASPECT_RATIO._17_9, "17:9"), // ~1.889:
-            // 1024x552
-            new PixelSizeToAspectRatio(30, 23, ASPECT_RATIO._11_9, "11:9"), // ~1.222:
-            // 592x480
+            new PixelSizeToAspectRatio(683, 384, ASPECT_RATIO._16_9, "16:9"),
+            // ~1.778: 1366x768
+            new PixelSizeToAspectRatio(85, 48, ASPECT_RATIO._16_9, "16:9"),
+            // ~1.778: 1360x768
+            new PixelSizeToAspectRatio(256, 135, ASPECT_RATIO._17_9, "17:9"),
+            // ~1.889: 2048x1080, (2K)
+            new PixelSizeToAspectRatio(512, 307, ASPECT_RATIO._5_3, "5:3"),
+            // ~1.667: 1024x614
+            new PixelSizeToAspectRatio(30, 23, ASPECT_RATIO._4_3, "4:3"),
+            // ~1.333: 480x368
+            new PixelSizeToAspectRatio(128, 69, ASPECT_RATIO._17_9, "17:9"),
+            // ~1.889: 1024x552
+            new PixelSizeToAspectRatio(30, 23, ASPECT_RATIO._11_9, "11:9"),
+            // ~1.222: 592x480
+            new PixelSizeToAspectRatio(53, 30, ASPECT_RATIO._16_9, "16:9"),
+            // ~1.767: 848x480
+            new PixelSizeToAspectRatio(37, 30, ASPECT_RATIO._11_9, "11:9"),
+            // ~1.233: 592x480
+            new PixelSizeToAspectRatio(192, 145, ASPECT_RATIO._4_3, "4:3"),
+            // ~1.324: 1152x870
+            new PixelSizeToAspectRatio(640, 427, ASPECT_RATIO._3_2, "3:2"),
+            // ~1.499: 1280x854
+            new PixelSizeToAspectRatio(427, 240, ASPECT_RATIO._16_9, "16:9"),
+            // ~1.779: 854x480
     };
-    private int cameraCount;
+
     private ListPreference cameraIndexPreference;
+
     private ListPreference cameraResolutionPreference;
 
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
@@ -203,55 +140,50 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
             return;
         }
 
+        int prefIdent = getResources().getIdentifier("preferences", "xml", getPackageName());
+        Log.i(TAG, "" + prefIdent);
         addPreferencesFromResource(R.xml.preferences);
         cameraIndexPreference = (ListPreference) findPreference("pref_cameraIndex");
         cameraResolutionPreference = (ListPreference) findPreference("pref_cameraResolution");
 
         // One time only, we need to build a list of cameras. If more than
         // one camera, enable the cameraIndexPreference. Otherwise, disable it.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            cameraCount = Camera.getNumberOfCameras();
-            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-            int cameraCountFront = 0;
-            int cameraCountRear = 0;
-            CharSequence[] entries = new CharSequence[cameraCount];
-            CharSequence[] entryValues = new CharSequence[cameraCount];
-            for (int camIndex = 0; camIndex < cameraCount; camIndex++) {
-                Camera.getCameraInfo(camIndex, cameraInfo);
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    cameraCountFront++;
-                    entries[camIndex] = "Front camera";
-                    if (cameraCountFront > 1)
-                        entries[camIndex] = entries[camIndex] + " " + cameraCountFront;
-                } else {
-                    cameraCountRear++;
-                    entries[camIndex] = "Rear camera";
-                    if (cameraCountRear > 1)
-                        entries[camIndex] = entries[camIndex] + " " + cameraCountRear;
-                }
-                entryValues[camIndex] = Integer.toString(camIndex);
+        int cameraCount;
+        cameraCount = Camera.getNumberOfCameras();
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        int cameraCountFront = 0;
+        int cameraCountRear = 0;
+        CharSequence[] entries = new CharSequence[cameraCount];
+        CharSequence[] entryValues = new CharSequence[cameraCount];
+        for (int camIndex = 0; camIndex < cameraCount; camIndex++) {
+            Camera.getCameraInfo(camIndex, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                cameraCountFront++;
+                entries[camIndex] = "Front camera";
+                if (cameraCountFront > 1)
+                    entries[camIndex] = entries[camIndex] + " " + cameraCountFront;
+            } else {
+                cameraCountRear++;
+                entries[camIndex] = "Rear camera";
+                if (cameraCountRear > 1)
+                    entries[camIndex] = entries[camIndex] + " " + cameraCountRear;
             }
-            cameraIndexPreference.setEnabled(true);
-            cameraIndexPreference.setEntries(entries);
-            cameraIndexPreference.setEntryValues(entryValues);
-        } else {
-            cameraCount = 1;
-            cameraIndexPreference.setEnabled(false);
+            entryValues[camIndex] = Integer.toString(camIndex);
         }
+        cameraIndexPreference.setEnabled(true);
+        cameraIndexPreference.setEntries(entries);
+        cameraIndexPreference.setEntryValues(entryValues);
+
 
         buildResolutionListForCameraIndex();
     }
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     private void buildResolutionListForCameraIndex() {
         int camIndex = Integer.parseInt(cameraIndexPreference.getValue());
 
-        Camera cam = null;
+        Camera cam;
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
-                cam = Camera.open(camIndex);
-            else
-                cam = Camera.open();
+            cam = Camera.open(camIndex);
 
             Camera.Parameters params = cam.getParameters();
             List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
@@ -262,6 +194,7 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
             // String camResolution =
             // sharedPreferences.getString("pref_cameraResolution",
             // getResources().getString(R.string.pref_defaultValue_cameraResolution);
+
             String camResolution = cameraResolutionPreference.getValue();
             boolean foundCurrentResolution = false;
             CharSequence[] entries = new CharSequence[previewSizes.size()];
@@ -269,8 +202,7 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
             for (int i = 0; i < previewSizes.size(); i++) {
                 int w = previewSizes.get(i).width;
                 int h = previewSizes.get(i).height;
-                entries[i] = w + "x" + h + "   (" + findAspectRatioName(w, h)
-                        + ")";
+                entries[i] = w + "x" + h + "   (" + findAspectRatioName(w, h) + ")";
                 entryValues[i] = w + "x" + h;
                 if (entryValues[i].equals(camResolution))
                     foundCurrentResolution = true;
@@ -280,8 +212,7 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
 
             if (!foundCurrentResolution) {
                 cameraResolutionPreference.setValue(entryValues[0].toString());
-                cameraResolutionPreference
-                        .setSummary(cameraResolutionPreference.getEntry());
+                cameraResolutionPreference.setSummary(cameraResolutionPreference.getEntry());
             }
 
         } catch (RuntimeException e) {
@@ -310,8 +241,7 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
             cameraIndexPreference.setSummary(cameraIndexPreference.getEntry());
             buildResolutionListForCameraIndex();
         } else if (key.equals("pref_cameraResolution")) {
-            cameraResolutionPreference.setSummary(cameraResolutionPreference
-                    .getEntry());
+            cameraResolutionPreference.setSummary(cameraResolutionPreference.getEntry());
         }
     }
 
@@ -321,8 +251,7 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
         super.onPause();
 
         // Unregister the listener whenever a key changes
-        getPreferenceManager().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -337,6 +266,7 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
      * @return If a matching commonly-used aspect ratio can be found, returns
      * symbolic constant for that aspect ratio.
      */
+    @SuppressWarnings("unused")
     public ASPECT_RATIO findAspectRatio(int w, int h) {
 
         // Reduce.

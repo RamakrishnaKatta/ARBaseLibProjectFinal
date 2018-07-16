@@ -1,45 +1,9 @@
-/*
- *  AssetHelper.java
- *  ARToolKit5
- *
- *  This file is part of ARToolKit.
- *
- *  ARToolKit is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  ARToolKit is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with ARToolKit.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  As a special exception, the copyright holders of this library give you
- *  permission to link this library with independent modules to produce an
- *  executable, regardless of the license terms of these independent modules, and to
- *  copy and distribute the resulting executable under terms of your choice,
- *  provided that you also meet, for each linked independent module, the terms and
- *  conditions of the license of that module. An independent module is a module
- *  which is neither derived from nor based on this library. If you modify this
- *  library, you may extend this exception to your version of the library, but you
- *  are not obligated to do so. If you do not wish to do so, delete this exception
- *  statement from your version.
- *
- *  Copyright 2015 Daqri, LLC.
- *  Copyright 2011-2015 ARToolworks, Inc.
- *
- *  Author(s): Julian Looser, Philip Lamb
- *
- */
-
 package org.artoolkit.ar.base.assets;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -69,9 +33,7 @@ public class AssetHelper {
     public AssetHelper(AssetManager am) {
 
         manager = am;
-
     }
-
 
     public List<AssetFileTransfer> copyAssetFolder(String assetBasePath, String targetDirPath) {
 
@@ -117,7 +79,7 @@ public class AssetHelper {
             nnfe.printStackTrace();
             return;
         }
-        File cacheFolder = new File(ctx.getCacheDir().getAbsolutePath() + "/" + assetBasePath);
+        File cacheFolder = new File(Environment.getExternalStorageDirectory().toString() + "//L_CATALOG/cache/" + assetBasePath);
         File cacheIndexFile = new File(cacheFolder, "cacheIndex-" + versionCode + ".txt");
 
         BufferedReader inBuf = null;
@@ -157,7 +119,8 @@ public class AssetHelper {
         // If needed, write a fresh copy of the folder to the cache.
         if (reCache) {
             deleteRecursive(cacheFolder); // Delete remnant, if any, of cached folder.
-            List<AssetFileTransfer> transfers = copyAssetFolder(assetBasePath, ctx.getCacheDir().getAbsolutePath()); // Recreate it.
+
+            List<AssetFileTransfer> transfers = copyAssetFolder(assetBasePath, Environment.getExternalStorageDirectory().toString() + "//L_CATALOG/cache"); // Recreate it.
 
             // Now write a new cache index inside the folder.
             BufferedWriter outBuf = null;
@@ -218,5 +181,4 @@ public class AssetHelper {
             ioe.printStackTrace();
         }
     }
-
 }

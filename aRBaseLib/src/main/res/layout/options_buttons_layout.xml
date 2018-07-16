@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonOptionsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:baselineAligned="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/button_screenshot_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_10"
+        android:visibility="visible">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/button_screenshot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@null"
+            android:src="@mipmap/ic_screenshot" />
+
+        <TextView
+            android:id="@+id/button_screenshot_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/overlock_sc"
+            android:text="@string/screenshot"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_verysmall" />
+
+    </LinearLayout>
+
+</FrameLayout>

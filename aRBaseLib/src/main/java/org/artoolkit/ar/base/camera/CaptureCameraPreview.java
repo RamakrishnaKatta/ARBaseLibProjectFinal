@@ -1,60 +1,24 @@
-/*
- *  CaptureCameraPreview.java
- *  ARToolKit5
- *
- *  This file is part of ARToolKit.
- *
- *  ARToolKit is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  ARToolKit is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with ARToolKit.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  As a special exception, the copyright holders of this library give you
- *  permission to link this library with independent modules to produce an
- *  executable, regardless of the license terms of these independent modules, and to
- *  copy and distribute the resulting executable under terms of your choice,
- *  provided that you also meet, for each linked independent module, the terms and
- *  conditions of the license of that module. An independent module is a module
- *  which is neither derived from nor based on this library. If you modify this
- *  library, you may extend this exception to your version of the library, but you
- *  are not obligated to do so. If you do not wish to do so, delete this exception
- *  statement from your version.
- *
- *  Copyright 2015 Daqri, LLC.
- *  Copyright 2011-2015 ARToolworks, Inc.
- *
- *  Author(s): Julian Looser, Philip Lamb
- *
- */
-
 package org.artoolkit.ar.base.camera;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
-import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
+import android.widget.Toast;
 
+import org.artoolkit.ar.base.EnvconstantsAR;
 import org.artoolkit.ar.base.FPSCounter;
 import org.artoolkit.ar.base.R;
 
 import java.io.IOException;
-
-//import java.util.List;
-
-//import java.util.List;
 
 @SuppressLint("ViewConstructor")
 public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
@@ -62,12 +26,13 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
     /**
      * Android logging tag for this class.
      */
-    private static final String TAG = "CameraPreview";
+    private static final String TAG = "CaptureCameraPreview";
 
     /**
      * The Camera doing the capturing.
      */
-    private Camera camera = null;
+    public Camera camera = null;
+    public int rotation;
     private CameraWrapper cameraWrapper = null;
 
     /**
@@ -110,7 +75,6 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS); // Deprecated in API level 11. Still required for API levels <= 10.
 
         setCameraEventListener(cel);
-
     }
 
     /**
@@ -123,41 +87,96 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
         listener = cel;
     }
 
-
     @SuppressLint("NewApi")
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void surfaceCreated(SurfaceHolder surfaceHolderInstance) {
 
         int cameraIndex = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("pref_cameraIndex", "0"));
-        Log.i(TAG, "surfaceCreated(): Opening camera " + (cameraIndex + 1));
+        Log.e(TAG, "surfaceCreated(): Called, Opening camera " + cameraIndex + ", setting preview surface and orientation.");
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
-                camera = Camera.open(cameraIndex);
-            else camera = Camera.open();
+            camera = Camera.open(cameraIndex);
+            Log.e(TAG, "surfaceCreated(): Camera open");
 
-        } catch (RuntimeException exception) {
-            Log.e(TAG, "surfaceCreated(): Cannot open camera. It may be in use by another process.");
+        } catch (RuntimeException ex) {
+            Log.e(TAG, "surfaceCreated(): RuntimeException " + ex.getMessage() + ".");
+            return;
+        } catch (Exception ex) {
+            Log.e(TAG, "surfaceCreated()): Exception " + ex.getMessage() + ".");
             return;
         }
 
-        Log.i(TAG, "surfaceCreated(): Camera open");
+        //camera.setPreviewDisplay(surfaceHolderInstance);
 
-        try {
-
-            camera.setPreviewDisplay(holder);
-
-        } catch (IOException exception) {
-            Log.e(TAG, "surfaceCreated(): IOException setting display holder");
-            camera.release();
-            camera = null;
-            Log.i(TAG, "surfaceCreated(): Released camera");
-            return;
+        if (!setPreviewOrientationAndSurface(surfaceHolderInstance, cameraIndex)) {
+            Log.e(TAG, "surfaceCreated(): call to setPreviewOrientationAndSurface() failed.");
+        } else {
+            Log.e(TAG, "surfaceCreated(): succeeded");
         }
+    }
+
+    private boolean setPreviewOrientationAndSurface(SurfaceHolder surfaceHolderInstance, int cameraIndex) {
+        Log.e(TAG, "setPreviewOrientationAndSurface(): called");
+        boolean success = true;
+        try {
+            setCameraPreviewDisplayOrientation(cameraIndex, camera);
+            camera.setPreviewDisplay(surfaceHolderInstance);
+        } catch (IOException ex) {
+            Log.e(TAG, "setPreviewOrientationAndSurface(): IOException " + ex.toString());
+            success = false;
+        } catch (Exception ex) {
+            Log.e(TAG, "setPreviewOrientationAndSurface(): Exception " + ex.toString());
+            success = false;
+        }
+        if (!success) {
+            if (null != camera) {
+                camera.release();
+                camera = null;
+            }
+            Log.e(TAG, "setPreviewOrientationAndSurface(): released camera due to caught exception");
+        }
+        return success;
+    }
+
+    private void setCameraPreviewDisplayOrientation(int cameraId, Camera camera) {
+
+        WindowManager wMgr = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        assert wMgr != null;
+        rotation = wMgr.getDefaultDisplay().getRotation();
+
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;     // Landscape with camera on left side
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;   // Portrait with camera on top side
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break; // Landscape with camera on right side
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break; // Portrait with camera on bottom side
+        }
+
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+
+        // Set the clockwise rotation of preview display in degrees. This affects the preview frames and
+        // the picture displayed after snapshot.
+        camera.setDisplayOrientation(result);
 
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void surfaceDestroyed(SurfaceHolder surfaceHolderInstance) {
         // Surface will be destroyed when we return, so stop the preview.
         // Because the CameraDevice object is not a shared resource, it's very
         // important to release it when the activity is paused.
@@ -172,11 +191,8 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
         }
 
         if (listener != null) listener.cameraPreviewStopped();
-
     }
 
-
-    @SuppressWarnings("deprecation") // setPreviewFrameRate, getPreviewFrameRate
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 
@@ -186,34 +202,56 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
             return;
         }
 
-        Log.i(TAG, "surfaceChanged(): Surfaced changed, setting up camera and starting preview");
+        /**
+         * Get the current Resolution of the Phone in the form of Pixels
+         * Save then to a String called CameraResolution
+         */
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        String cam_height = Integer.toString(height);
+        String cam_width = Integer.toString(width);
+        String CameraResolution = cam_width + "x" + cam_height;
+        Log.e(TAG, "surfaceChanged(): CameraResolution : (Acquired) " + CameraResolution);
 
+        Log.e(TAG, "surfaceChanged(): Surfaced changed, setting up camera and starting preview");
+
+        /**
+         * Get the current Resolution of the Camera and set those parameters to the current camera
+         * Save then to a String called CameraResolution
+         */
         String camResolution = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("pref_cameraResolution", getResources().getString(R.string.pref_defaultValue_cameraResolution));
+//        String camResolution = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(CameraResolution, CameraResolution);
         String[] dims = camResolution.split("x", 2);
         Camera.Parameters parameters = camera.getParameters();
+        Log.e(TAG, "surfaceChanged(): CameraResolution : (Applied) " + Integer.parseInt(dims[0]) + "x" + Integer.parseInt(dims[1]));
         parameters.setPreviewSize(Integer.parseInt(dims[0]), Integer.parseInt(dims[1]));
         parameters.setPreviewFrameRate(30);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        parameters.setExposureCompensation(0);
         camera.setParameters(parameters);
 
         parameters = camera.getParameters();
         captureWidth = parameters.getPreviewSize().width;
         captureHeight = parameters.getPreviewSize().height;
         captureRate = parameters.getPreviewFrameRate();
+        Log.e(TAG, "surfaceChanged(): Applied Camera parameters will be : " + "CameraCaptureWidth: " + captureWidth + "CameraCaptureHeight: " + captureHeight + " CameraCaptureRate: " + captureRate);
+
         int pixelformat = parameters.getPreviewFormat(); // android.graphics.imageformat
         PixelFormat pixelinfo = new PixelFormat();
         PixelFormat.getPixelFormatInfo(pixelformat, pixelinfo);
+
         int cameraIndex = 0;
         boolean cameraIsFrontFacing = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-            cameraIndex = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("pref_cameraIndex", "0"));
-            Camera.getCameraInfo(cameraIndex, cameraInfo);
-            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT)
-                cameraIsFrontFacing = true;
-        }
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraIndex = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("pref_cameraIndex", "0"));
+        Camera.getCameraInfo(cameraIndex, cameraInfo);
+        if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT)
+            cameraIsFrontFacing = true;
 
         int bufSize = captureWidth * captureHeight * pixelinfo.bitsPerPixel / 8; // For the default NV21 format, bitsPerPixel = 12.
-        Log.i(TAG, "surfaceChanged(): Camera buffers will be " + captureWidth + "x" + captureHeight + "@" + pixelinfo.bitsPerPixel + "bpp, " + bufSize + "bytes.");
+        Log.e(TAG, "surfaceChanged(): Camera buffers will be " + captureWidth + "x" + captureHeight + "@" + pixelinfo.bitsPerPixel + "bpp, " + bufSize + "bytes.");
         cameraWrapper = new CameraWrapper(camera);
         cameraWrapper.configureCallback(this, true, 10, bufSize); // For the default NV21 format, bitsPerPixel = 12.
 
@@ -221,22 +259,134 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
 
         if (listener != null)
             listener.cameraPreviewStarted(captureWidth, captureHeight, captureRate, cameraIndex, cameraIsFrontFacing);
-
     }
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
 
         if (listener != null) listener.cameraPreviewFrame(data);
-
         cameraWrapper.frameReceived(data);
 
-
         if (fpsCounter.frame()) {
-            Log.i(TAG, "onPreviewFrame(): Camera capture FPS: " + fpsCounter.getFPS());
+            Log.e(TAG, "onPreviewFrame(): Camera capture FPS: " + fpsCounter.getFPS());
         }
-
-
     }
 
+    public int SetContinousPicture() {
+        int returnval = 0;
+        Camera.Parameters parameters = camera.getParameters();
+        if (EnvconstantsAR.CONTINOUSPICTURE) {
+            if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                returnval = 1;
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                Log.e(TAG, "CameraModes(): Focus Continuous Picture Applied ");
+            } else {
+                returnval = 0;
+                Toast.makeText(getContext(), "This feature is not supported on your Device", Toast.LENGTH_LONG).show();
+            }
+        }
+        parameters.setExposureCompensation(0);
+        camera.setParameters(parameters);
+        camera.startPreview();
+        return returnval;
+    }
+
+    public int setAutoFocus() {
+        int returnval = 0;
+        Camera.Parameters parameters = camera.getParameters();
+
+        if (EnvconstantsAR.AUTOFOCUS) {
+            if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                returnval = 1;
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                Log.e(TAG, "CameraModes(): Focus Auto Applied ");
+            } else {
+                returnval = 0;
+                Toast.makeText(getContext(), "This feature is not supported on your Device", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            camera.cancelAutoFocus();
+        }
+        parameters.setExposureCompensation(0);
+        camera.setParameters(parameters);
+        camera.startPreview();
+        return returnval;
+    }
+
+    public int setAutoScene() {
+        int returnval = 0;
+        Camera.Parameters parameters = camera.getParameters();
+        if (EnvconstantsAR.AUTOSCENE) {
+            if (parameters.getSupportedSceneModes().contains(Camera.Parameters.SCENE_MODE_AUTO)) {
+                returnval = 1;
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
+                Log.e(TAG, "CameraModes(): Scene Auto Mode Applied ");
+            } else {
+                returnval = 0;
+                Toast.makeText(getContext(), "This feature is not supported on your Device", Toast.LENGTH_LONG).show();
+            }
+        }
+        parameters.setExposureCompensation(0);
+        camera.setParameters(parameters);
+        camera.startPreview();
+        return returnval;
+    }
+
+    public int setSteadyShot() {
+        int returnval = 0;
+        Camera.Parameters parameters = camera.getParameters();
+        if (EnvconstantsAR.STEADYSHOT) {
+
+            if (parameters.getSupportedSceneModes().contains(Camera.Parameters.SCENE_MODE_STEADYPHOTO)) {
+                returnval = 1;
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_STEADYPHOTO);
+                Log.e(TAG, "CameraModes(): Scene STEADY PHOTO Applied ");
+            } else {
+                returnval = 0;
+                Toast.makeText(getContext(), "This feature is not supported on your Device", Toast.LENGTH_LONG).show();
+            }
+        }
+        parameters.setExposureCompensation(0);
+        camera.setParameters(parameters);
+        camera.startPreview();
+        return returnval;
+    }
+
+    public int setWhiteBalance() {
+        int returnval = 0;
+        Camera.Parameters parameters = camera.getParameters();
+        if (EnvconstantsAR.WHITEBALANCE) {
+            if (parameters.getSupportedWhiteBalance().contains(Camera.Parameters.WHITE_BALANCE_INCANDESCENT)) {
+                returnval = 1;
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_INCANDESCENT);
+                Log.e(TAG, "CameraModes(): White Balance Auto Applied ");
+            } else {
+                returnval = 0;
+                Toast.makeText(getContext(), "This feature is not supported on your Device", Toast.LENGTH_LONG).show();
+            }
+        }
+        parameters.setExposureCompensation(0);
+        camera.setParameters(parameters);
+        camera.startPreview();
+        return returnval;
+    }
+
+    public int setHDR() {
+        int returnval = 0;
+        Camera.Parameters parameters = camera.getParameters();
+        if (EnvconstantsAR.HDR) {
+            if (parameters.getSupportedWhiteBalance().contains(Camera.Parameters.SCENE_MODE_HDR)) {
+                returnval = 1;
+                parameters.setWhiteBalance(Camera.Parameters.SCENE_MODE_HDR);
+                Log.e(TAG, "CameraModes(): HDR Applied ");
+            } else {
+                returnval = 0;
+                Toast.makeText(getContext(), "This feature is not supported on your Device", Toast.LENGTH_LONG).show();
+            }
+        }
+        parameters.setExposureCompensation(0);
+        camera.setParameters(parameters);
+        camera.startPreview();
+        return returnval;
+    }
 }

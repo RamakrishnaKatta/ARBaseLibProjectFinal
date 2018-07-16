@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/augment_screen_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_20"
+        android:background="@drawable/augment_screen_frame">
+
+        <TextView
+            android:id="@+id/ar_note_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/timer_text"
+            android:fontFamily="@font/overlock_sc"
+            android:gravity="center"
+            android:padding="@dimen/margin_20"
+            android:text="You are about to load an Augment Camera. Please be patient while the Resources are being loaded"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/timer_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ar_progress_text"
+            android:fontFamily="@font/digital_mono"
+            android:gravity="center"
+            android:paddingBottom="@dimen/margin_10"
+            android:paddingEnd="@dimen/margin_20"
+            android:paddingStart="@dimen/margin_20"
+            android:paddingTop="@dimen/margin_20"
+            android:text="WATCH"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xxlarge"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ar_progress_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/assistant_semibold"
+            android:gravity="center"
+            android:padding="@dimen/margin_10"
+            android:text="Camera is being configured..."
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</LinearLayout>
