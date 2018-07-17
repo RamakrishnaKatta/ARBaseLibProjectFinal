@@ -30,7 +30,6 @@
             android:id="@+id/button_screenshot_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/overlock_sc"
             android:text="@string/screenshot"
             android:textAllCaps="true"
             android:textColor="@android:color/white"

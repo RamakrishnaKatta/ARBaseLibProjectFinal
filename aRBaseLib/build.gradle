@@ -3,7 +3,7 @@ apply plugin: 'com.android.model.library'
 model {
     android {
         compileSdkVersion = 27
-        buildToolsVersion = "27.1.0"
+        buildToolsVersion = "27.0.3"
 
         defaultConfig.with {
             minSdkVersion.apiLevel = 19
@@ -47,5 +47,5 @@ dependencies {
 }
 
 repositories {
-    google()
+//    google()
 }
