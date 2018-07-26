@@ -48,11 +48,9 @@ class CameraWrapper {
         } catch (NoSuchMethodException nsme) {
             Log.w(TAG, "CameraWrapper(): Could not find method: " + nsme.getMessage());
 
-
         } catch (ClassNotFoundException cnfe) {
             Log.w(TAG, "CameraWrapper(): Could not find class " + CAMERA_CLASS_NAME);
         }
-
     }
 
     public boolean configureCallback(Camera.PreviewCallback cb, boolean useBuffersIfAvailable, int numBuffersIfAvailable, int bufferSize) {
@@ -123,7 +121,6 @@ class CameraWrapper {
         }
         return true;
     }
-
 
     private boolean addCallbackBuffer(byte[] data) {
 

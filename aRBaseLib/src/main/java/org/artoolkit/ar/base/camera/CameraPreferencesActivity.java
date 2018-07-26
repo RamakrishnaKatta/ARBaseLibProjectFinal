@@ -25,7 +25,8 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
             new PixelSizeToAspectRatio(5, 4, ASPECT_RATIO._5_4, "5:4"),
             // 1.25: 1280x1024, (SXGA), 2560x2048
             new PixelSizeToAspectRatio(4, 3, ASPECT_RATIO._4_3, "4:3"),
-            // 1.333: 320x240, (QVGA), 480x360, 640x480, (VGA), 768x576, (576p), 800x600, (SVGA), 960x720, 1024x768, (XGA), 1152x864, 1280x960, 1400x1050, 1600x1200, 2048x1536
+            // 1.333: 320x240, (QVGA), 480x360, 640x480, (VGA), 768x576, (576p), 800x600, (SVGA),
+            // 960x720, 1024x768, (XGA), 1152x864, 1280x960, 1400x1050, 1600x1200, 2048x1536
             new PixelSizeToAspectRatio(3, 2, ASPECT_RATIO._3_2, "3:2"),
             // 1.5: 240x160, 480x320, 960x640, 720x480, (480p), 1152x768, 1280x854, 1440x960
             new PixelSizeToAspectRatio(14, 9, ASPECT_RATIO._14_9, "14:9"),
@@ -118,7 +119,6 @@ public class CameraPreferencesActivity extends PreferenceActivity implements
         cameraIndexPreference.setEnabled(true);
         cameraIndexPreference.setEntries(entries);
         cameraIndexPreference.setEntryValues(entryValues);
-
 
         buildResolutionListForCameraIndex();
     }

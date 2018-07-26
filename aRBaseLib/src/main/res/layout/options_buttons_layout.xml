@@ -17,7 +17,7 @@
         android:padding="@dimen/margin_10"
         android:visibility="visible">
 
-        <android.support.v7.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/button_screenshot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

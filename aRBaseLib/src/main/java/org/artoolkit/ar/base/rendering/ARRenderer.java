@@ -4,18 +4,11 @@ import android.graphics.Bitmap;
 import android.opengl.GLES10;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.os.Environment;
 import android.util.Log;
 
 import org.artoolkit.ar.base.ARToolKit;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.IntBuffer;
-import java.util.Date;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

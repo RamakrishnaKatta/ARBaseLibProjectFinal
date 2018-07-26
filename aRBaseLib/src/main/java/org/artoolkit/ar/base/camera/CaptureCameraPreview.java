@@ -172,7 +172,6 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
         // Set the clockwise rotation of preview display in degrees. This affects the preview frames and
         // the picture displayed after snapshot.
         camera.setDisplayOrientation(result);
-
     }
 
     @Override

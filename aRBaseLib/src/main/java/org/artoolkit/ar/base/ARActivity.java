@@ -22,7 +22,6 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -30,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,14 +44,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
 
-//import android.os.AsyncTask;
-//import android.os.AsyncTask.Status;
+//import an
 
 /**
  * An activity which can be subclassed to create an AR application. ARActivity handles almost all of
  * the required operations to create a simple augmented reality application.
  * <p/>
- * ARActivity automatically creates a camera preview surface and an OpenGL surface view, and
+ * ARActivity automatically creates a camera preview surface and an OpenGL surface view, anddroid.os.AsyncTask;
+ * //import android.os.AsyncTask.Status;
+ * <p>
  * arranges these correctly in the user interface.The subclass simply needs to provide a FrameLayout
  * object which will be populated with these UI components, using {@link #supplyFrameLayout() supplyFrameLayout}.
  * <p/>
@@ -89,9 +90,9 @@ public abstract class ARActivity extends Activity implements CameraEventListener
 
     private boolean firstUpdate = false;
     private Context mContext;
-    private AppCompatImageButton mOptionsButton;
-    private AppCompatImageButton mScreenshotButton;
-    private AppCompatImageButton mHdrButton, mAutoSceneButton, mWhiteBalanceButton, mContinuousPictureButton, mAutoFocusButton, mSteadyShotButton, mFlashButton;
+    private ImageButton mOptionsButton;
+    private ImageButton mScreenshotButton;
+    private ImageButton mHdrButton, mAutoSceneButton, mWhiteBalanceButton, mContinuousPictureButton, mAutoFocusButton, mSteadyShotButton, mFlashButton;
     private LinearLayout mHdrButtonArea, mAutoSceneButtonArea, mWhiteBalanceButtonArea, mContinuousPictureButtonArea, mAutoFocusButtonArea, mSteadyShotButtonArea, mFlashButtonArea;
 
     private TextView arTimer, arProgressText;

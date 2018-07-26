@@ -20,7 +20,6 @@ public class Line {
      * Should only be used when instantiating a Line using {@link org.artoolkit.ar.base.rendering.gles20.LineGLES20}
      */
     protected Line() {
-
     }
 
     /**
@@ -96,7 +95,6 @@ public class Line {
             this.end = end;
     }
 
-
     public float[] getColor() {
         return color;
     }
@@ -104,7 +102,6 @@ public class Line {
     public void setColor(float[] color) {
         this.color = color;
     }
-
 
     public FloatBuffer getmColorBuffer() {
         return mColorBuffer;
