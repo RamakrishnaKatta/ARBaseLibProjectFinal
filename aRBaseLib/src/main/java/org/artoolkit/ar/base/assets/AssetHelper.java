@@ -120,7 +120,7 @@ public class AssetHelper {
         if (reCache) {
             deleteRecursive(cacheFolder); // Delete remnant, if any, of cached folder.
 
-            List<AssetFileTransfer> transfers = copyAssetFolder(assetBasePath, Environment.getExternalStorageDirectory().toString() + "//s/cache"); // Recreate it.
+            List<AssetFileTransfer> transfers = copyAssetFolder(assetBasePath, Environment.getExternalStorageDirectory().toString() + "//L_CATALOG/cache"); // Recreate it.
 
             // Now write a new cache index inside the folder.
             BufferedWriter outBuf = null;
