@@ -3,7 +3,7 @@ apply plugin: 'com.android.model.library'
 model {
     android {
         compileSdkVersion = 27
-        buildToolsVersion = "27.0.3"
+        buildToolsVersion = "27.1.0"
 
         defaultConfig.with {
             minSdkVersion.apiLevel = 19
@@ -30,12 +30,6 @@ model {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    android.productFlavors {
-    }
-
-    android.sources {
-    }
 }
 
 dependencies {
@@ -45,8 +39,4 @@ dependencies {
     compile 'com.android.support:support-v4:27.1.1'
     compile 'com.android.support:support-annotations:27.1.1'
     compile 'com.android.support:support-v13:27.1.1'
-}
-
-repositories {
-//    google()
 }

@@ -18,12 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//import java.security.MessageDigest;
-//import java.security.NoSuchAlgorithmException;
-
-//import java.security.MessageDigest;
-//import java.security.NoSuchAlgorithmException;
-
 public class AssetHelper {
 
     private static final String TAG = "AssetHelper";
@@ -31,7 +25,6 @@ public class AssetHelper {
     private AssetManager manager;
 
     public AssetHelper(AssetManager am) {
-
         manager = am;
     }
 
@@ -49,7 +42,6 @@ public class AssetHelper {
                 afte.printStackTrace();
             }
         }
-
         return transfers;
     }
 
@@ -120,7 +112,8 @@ public class AssetHelper {
         if (reCache) {
             deleteRecursive(cacheFolder); // Delete remnant, if any, of cached folder.
 
-            List<AssetFileTransfer> transfers = copyAssetFolder(assetBasePath, Environment.getExternalStorageDirectory().toString() + "//L_CATALOG/cache"); // Recreate it.
+            List<AssetFileTransfer> transfers = copyAssetFolder(assetBasePath, Environment.getExternalStorageDirectory().toString() +
+                    "//L_CATALOG/cache/"); // Recreate it.
 
             // Now write a new cache index inside the folder.
             BufferedWriter outBuf = null;
@@ -148,7 +141,6 @@ public class AssetHelper {
         } else {
             Log.i(TAG, "cacheAssetFolder(): Using cached folder '" + assetBasePath + "'.");
         }
-
     }
 
     public Set<String> getAssetFilenames(String path) {
