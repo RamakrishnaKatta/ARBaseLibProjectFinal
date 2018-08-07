@@ -3,22 +3,25 @@
     android:id="@+id/augment_screen_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/margin_10"
+    android:background="@drawable/augment_screen_frame"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:weightSum="2">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_20"
-        android:background="@drawable/augment_screen_frame">
+        android:layout_margin="@dimen/margin_10"
+        android:layout_weight="1"
+        android:gravity="top">
 
         <TextView
             android:id="@+id/ar_note_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/timer_text"
-            android:gravity="center"
-            android:padding="@dimen/margin_20"
+            android:padding="@dimen/margin_10"
             android:text="You are about to load an Augment Camera. Please be patient while the Resources are being loaded"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -30,7 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/ar_progress_text"
-            android:gravity="center"
             android:paddingBottom="@dimen/margin_10"
             android:paddingEnd="@dimen/margin_20"
             android:paddingStart="@dimen/margin_20"
@@ -54,6 +56,19 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_20"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/gifimage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 

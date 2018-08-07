@@ -3,14 +3,17 @@
     android:id="@+id/augment_screen_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/margin_10"
+    android:background="@drawable/augment_screen_frame"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:weightSum="2">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/margin_40"
-        android:background="@drawable/augment_screen_frame">
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/ar_note_text"
@@ -54,6 +57,20 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_tab_medium"
             android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_40"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/gifimage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 
     </RelativeLayout>
 

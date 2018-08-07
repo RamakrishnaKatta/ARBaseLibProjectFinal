@@ -30,9 +30,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import org.artoolkit.ar.base.camera.CameraEventListener;
 import org.artoolkit.ar.base.camera.CaptureCameraPreview;
@@ -43,22 +47,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
-
-//import an
-
-/**
- * An activity which can be subclassed to create an AR application. ARActivity handles almost all of
- * the required operations to create a simple augmented reality application.
- * <p/>
- * ARActivity automatically creates a camera preview surface and an OpenGL surface view, anddroid.os.AsyncTask;
- * //import android.os.AsyncTask.Status;
- * <p>
- * arranges these correctly in the user interface.The subclass simply needs to provide a FrameLayout
- * object which will be populated with these UI components, using {@link #supplyFrameLayout() supplyFrameLayout}.
- * <p/>
- * To create a custom AR experience, the subclass should also provide a custom renderer using
- * {@link #supplyRenderer() Renderer}. This allows the subclass to handle OpenGL drawing calls on its own.
- */
 
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public abstract class ARActivity extends Activity implements CameraEventListener, View.OnClickListener {
@@ -96,6 +84,7 @@ public abstract class ARActivity extends Activity implements CameraEventListener
     private LinearLayout mHdrButtonArea, mAutoSceneButtonArea, mWhiteBalanceButtonArea, mContinuousPictureButtonArea, mAutoFocusButtonArea, mSteadyShotButtonArea, mFlashButtonArea;
 
     private TextView arTimer, arProgressText;
+    private ImageView gifImage;
 
     private boolean flashmode = false;
     private boolean camera_options_visibility = false;
@@ -240,6 +229,7 @@ public abstract class ARActivity extends Activity implements CameraEventListener
         mainFrameLayout.addView(AugmentScreenLayout);
         arTimer = AugmentScreenLayout.findViewById(R.id.timer_text);
         arProgressText = AugmentScreenLayout.findViewById(R.id.ar_progress_text);
+        gifImage = AugmentScreenLayout.findViewById(R.id.gifimage);
 
         //Load Capture Options buttons
         OptionsButtonLayout = this.getLayoutInflater().inflate(R.layout.options_buttons_layout, mainFrameLayout, false);
@@ -581,6 +571,11 @@ public abstract class ARActivity extends Activity implements CameraEventListener
 
             startTimer(130000);
             Log.e(TAG, "getGLView(): Camera initialised");
+
+            Glide.with(this).load(R.drawable.tabar).into(new GlideDrawableImageViewTarget(gifImage));
+//            Glide.with(this).load(R.drawable.tabar)
+//                    .asGif()
+//                    .into(gifImage);
 
         } else {
             // Error
