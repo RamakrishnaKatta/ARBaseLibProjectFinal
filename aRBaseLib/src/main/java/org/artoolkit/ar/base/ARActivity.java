@@ -234,6 +234,8 @@ public abstract class ARActivity extends Activity implements CameraEventListener
         gifImage = AugmentScreenLayout.findViewById(R.id.gifimage);
         arStartButton = AugmentScreenLayout.findViewById(R.id.btn_start);
         arStartButton.setOnClickListener(this);
+        arStartButton.setEnabled(false);
+        arStartButton.setTextColor(getResources().getColor(R.color.jet));
 
         //Load Capture Options buttons
         OptionsButtonLayout = this.getLayoutInflater().inflate(R.layout.options_buttons_layout, mainFrameLayout, false);
@@ -582,7 +584,7 @@ public abstract class ARActivity extends Activity implements CameraEventListener
         if (ARToolKit.getInstance().initialiseAR(width, height, "/storage/emulated/0/L_CATALOG/cache/Data/camera_para.dat", cameraIndex, cameraIsFrontFacing)) {
             // Expects Data to be already in the cache dir. This can be done with the AssetUnpacker.
             arTimer.setText("Loading Resources...");
-            arProgressText.setText("Camera configured");
+
             Log.e(TAG, "getGLView(): Camera initialised");
 
         } else {
@@ -602,7 +604,9 @@ public abstract class ARActivity extends Activity implements CameraEventListener
         if (firstUpdate) {
             // ARToolKit has been initialised. The renderer can now add markers, etc...
             if (renderer.configureARScene()) {
-
+                arProgressText.setText("Camera configured.");
+                arStartButton.setEnabled(true);
+                arStartButton.setTextColor(getResources().getColor(R.color.primary_darker));
                 Log.e(TAG, "cameraPreviewFrame(): Scene configured successfully");
 
             } else {
