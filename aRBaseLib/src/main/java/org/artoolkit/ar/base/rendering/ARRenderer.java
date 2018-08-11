@@ -124,4 +124,3 @@ public class ARRenderer implements GLSurfaceView.Renderer {
         return inBitmap;
     }
 }
-

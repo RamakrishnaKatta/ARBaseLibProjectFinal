@@ -14,18 +14,18 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/margin_40"
         android:layout_weight="1"
-        android:gravity="top">
+        android:gravity="center">
 
         <TextView
             android:id="@+id/ar_note_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/timer_text"
+            android:fontFamily="@font/assistant_semibold"
             android:gravity="center"
             android:padding="@dimen/margin_40"
             android:text="You are about to load an Augment Camera. Please be patient while the Resources are being loaded"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_darker"
             android:textSize="@dimen/text_tab_large"
             android:textStyle="bold|italic" />
 
@@ -33,29 +33,41 @@
             android:id="@+id/timer_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/ar_progress_text"
+            android:layout_below="@id/ar_note_text"
+            android:fontFamily="@font/assistant_semibold"
             android:gravity="center"
-            android:paddingBottom="@dimen/margin_20"
-            android:paddingEnd="@dimen/margin_40"
-            android:paddingStart="@dimen/margin_40"
-            android:paddingTop="@dimen/margin_40"
+            android:padding="@dimen/margin_40"
             android:text="WATCH"
             android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_darker"
             android:textSize="@dimen/text_tab_xxlarge"
             android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timer_text"
+            android:layout_margin="@dimen/margin_6"
+            android:background="@color/transparent"
+            android:fontFamily="@font/overlock_sc"
+            android:gravity="center"
+            android:padding="@dimen/margin_6"
+            android:text="Start"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_tab_small" />
 
         <TextView
             android:id="@+id/ar_progress_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:fontFamily="@font/assistant_semibold"
             android:gravity="center"
-            android:padding="@dimen/margin_20"
+            android:padding="@dimen/margin_40"
             android:text="Camera is being configured..."
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_darker"
             android:textSize="@dimen/text_tab_medium"
             android:textStyle="bold" />
 

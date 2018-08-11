@@ -18,10 +18,10 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -85,6 +85,7 @@ public abstract class ARActivity extends Activity implements CameraEventListener
 
     private TextView arTimer, arProgressText;
     private ImageView gifImage;
+    private AppCompatButton arStartButton;
 
     private boolean flashmode = false;
     private boolean camera_options_visibility = false;
@@ -181,6 +182,7 @@ public abstract class ARActivity extends Activity implements CameraEventListener
         // Check if the system supports OpenGL ES 2.0.
         final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         ConfigurationInfo configurationInfo;
+        assert activityManager != null;
         configurationInfo = activityManager.getDeviceConfigurationInfo();
         boolean supportsEs2;
         assert configurationInfo != null;
@@ -230,6 +232,8 @@ public abstract class ARActivity extends Activity implements CameraEventListener
         arTimer = AugmentScreenLayout.findViewById(R.id.timer_text);
         arProgressText = AugmentScreenLayout.findViewById(R.id.ar_progress_text);
         gifImage = AugmentScreenLayout.findViewById(R.id.gifimage);
+        arStartButton = AugmentScreenLayout.findViewById(R.id.btn_start);
+        arStartButton.setOnClickListener(this);
 
         //Load Capture Options buttons
         OptionsButtonLayout = this.getLayoutInflater().inflate(R.layout.options_buttons_layout, mainFrameLayout, false);
@@ -281,6 +285,8 @@ public abstract class ARActivity extends Activity implements CameraEventListener
         mAutoFocusButtonArea.setVisibility(View.GONE);
         mSteadyShotButtonArea.setVisibility(View.GONE);
         mFlashButtonArea.setVisibility(View.GONE);
+
+        Glide.with(this).load(R.drawable.tabar).into(new GlideDrawableImageViewTarget(gifImage));
     }
 
     @Override
@@ -308,6 +314,13 @@ public abstract class ARActivity extends Activity implements CameraEventListener
 
     @Override
     public void onClick(View v) {
+        if (v.equals(arStartButton)) {
+
+            mainFrameLayout.removeView(AugmentScreenLayout);
+            mainFrameLayout.addView(OptionsButtonLayout);
+            mainFrameLayout.addView(CameraOptionsButtonLayout);
+        }
+
         if (v.equals(mOptionsButton)) {
 
 //            Toast.makeText(this, "Options are used for development purpose. \n Your current options are \n Resolution : 1280x720 \n Aspect Ratio : 16:9 ", Toast.LENGTH_SHORT).show();
@@ -568,14 +581,9 @@ public abstract class ARActivity extends Activity implements CameraEventListener
 
         if (ARToolKit.getInstance().initialiseAR(width, height, "/storage/emulated/0/L_CATALOG/cache/Data/camera_para.dat", cameraIndex, cameraIsFrontFacing)) {
             // Expects Data to be already in the cache dir. This can be done with the AssetUnpacker.
-
-            startTimer(130000);
+            arTimer.setText("Loading Resources...");
+            arProgressText.setText("Camera configured");
             Log.e(TAG, "getGLView(): Camera initialised");
-
-            Glide.with(this).load(R.drawable.tabar).into(new GlideDrawableImageViewTarget(gifImage));
-//            Glide.with(this).load(R.drawable.tabar)
-//                    .asGif()
-//                    .into(gifImage);
 
         } else {
             // Error
@@ -586,24 +594,6 @@ public abstract class ARActivity extends Activity implements CameraEventListener
         Log.e(TAG, "Camera settings: " + width + "x" + height + "@" + rate + "fps");
 
         firstUpdate = true;
-    }
-
-    public void startTimer(final long finish) {
-        new CountDownTimer(finish, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                long remainedSecs = millisUntilFinished / 1000;
-                arTimer.setText(("Estimated TIME LEFT : " + remainedSecs / 60) + " Min : " + (remainedSecs % 60) + " Secs");
-            }
-
-            public void onFinish() {
-                arProgressText.setText("Camera configured");
-                mainFrameLayout.removeView(AugmentScreenLayout);
-                mainFrameLayout.addView(OptionsButtonLayout);
-                mainFrameLayout.addView(CameraOptionsButtonLayout);
-                cancel();
-            }
-        }.start();
     }
 
     @Override
