@@ -106,7 +106,7 @@ public class ARRenderer implements GLSurfaceView.Renderer {
                 }
 
                 // image naming and path to include sd card appending name you choose for file
-//                String sPath = Environment.getExternalStorageDirectory().toString() + "/L_CATALOG/Screenshots";
+//                String sPath = Environment.getExternalStorageDirectory().toString() + "/L_CATALOG_MOD/Screenshots";
 
                 if (inBitmap == null || !inBitmap.isMutable() || inBitmap.getWidth() != w || inBitmap.getHeight() != h) {
                     inBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);

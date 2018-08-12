@@ -98,6 +98,8 @@ public abstract class ARActivity extends Activity implements CameraEventListener
 
     private View AugmentScreenLayout, OptionsButtonLayout, CameraOptionsButtonLayout;
 
+    public String screenshot_location, camerapara_location;
+
     @SuppressWarnings("unused")
     public Context getAppContext() {
         return mContext;
@@ -164,6 +166,11 @@ public abstract class ARActivity extends Activity implements CameraEventListener
             // No renderer supplied, use default, which does nothing
             renderer = new ARRenderer();
         }
+    }
+
+    public void locations(String screenshot_l, String camerapara_l) {
+        screenshot_location = screenshot_l;
+        camerapara_location = camerapara_l;
     }
 
     @Override
@@ -484,7 +491,7 @@ public abstract class ARActivity extends Activity implements CameraEventListener
             public void onPictureTaken(byte[] data, Camera camera) {
                 try {
 
-                    String cPath = Environment.getExternalStorageDirectory() + "/L_CATALOG/Screenshots";
+                    String cPath = screenshot_location;
                     // convert byte array into bitmap
                     Bitmap loadedImage;
 //                    Bitmap rotatedBitmap = null;
@@ -581,7 +588,7 @@ public abstract class ARActivity extends Activity implements CameraEventListener
     @Override
     public void cameraPreviewStarted(int width, int height, int rate, int cameraIndex, boolean cameraIsFrontFacing) {
 
-        if (ARToolKit.getInstance().initialiseAR(width, height, "/storage/emulated/0/L_CATALOG/cache/Data/camera_para.dat", cameraIndex, cameraIsFrontFacing)) {
+        if (ARToolKit.getInstance().initialiseAR(width, height, camerapara_location, cameraIndex, cameraIsFrontFacing)) {
             // Expects Data to be already in the cache dir. This can be done with the AssetUnpacker.
             arTimer.setText("Loading Resources...");
 

@@ -3,7 +3,6 @@ package org.artoolkit.ar.base.assets;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -53,7 +52,7 @@ public class AssetHelper {
         fileOrDirectory.delete();
     }
 
-    public void cacheAssetFolder(Context ctx, String assetBasePath) {
+    public void cacheAssetFolder(Context ctx, String assetBasePath, String recachePath) {
 
         // If the folder has already been cached, we will inspect the cache.
         // If it's all OK, we'll return nice and quickly. Otherwise, any previous
@@ -71,7 +70,7 @@ public class AssetHelper {
             nnfe.printStackTrace();
             return;
         }
-        File cacheFolder = new File(Environment.getExternalStorageDirectory().toString() + "//L_CATALOG/cache/" + assetBasePath);
+        File cacheFolder = new File(assetBasePath);
         File cacheIndexFile = new File(cacheFolder, "cacheIndex-" + versionCode + ".txt");
 
         BufferedReader inBuf = null;
@@ -112,8 +111,7 @@ public class AssetHelper {
         if (reCache) {
             deleteRecursive(cacheFolder); // Delete remnant, if any, of cached folder.
 
-            List<AssetFileTransfer> transfers = copyAssetFolder(assetBasePath, Environment.getExternalStorageDirectory().toString() +
-                    "//L_CATALOG/cache/"); // Recreate it.
+            List<AssetFileTransfer> transfers = copyAssetFolder(assetBasePath, recachePath); // Recreate it.
 
             // Now write a new cache index inside the folder.
             BufferedWriter outBuf = null;
