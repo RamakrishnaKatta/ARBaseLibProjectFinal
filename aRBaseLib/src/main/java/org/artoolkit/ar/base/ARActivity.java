@@ -21,13 +21,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -85,7 +85,7 @@ public abstract class ARActivity extends Activity implements CameraEventListener
 
     private TextView arTimer, arProgressText;
     private ImageView gifImage;
-    private AppCompatButton arStartButton;
+    private Button arStartButton;
 
     private boolean flashmode = false;
     private boolean camera_options_visibility = false;
