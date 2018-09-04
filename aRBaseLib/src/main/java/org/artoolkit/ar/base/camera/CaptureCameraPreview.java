@@ -19,6 +19,7 @@ import org.artoolkit.ar.base.FPSCounter;
 import org.artoolkit.ar.base.R;
 
 import java.io.IOException;
+import java.util.List;
 
 @SuppressLint("ViewConstructor")
 public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
@@ -205,12 +206,13 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
          * Get the current Resolution of the Phone in the form of Pixels
          * Save then to a String called CameraResolution
          */
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-        String cam_height = Integer.toString(height);
-        String cam_width = Integer.toString(width);
+
+        Camera.Parameters params = camera.getParameters();
+        List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
+        int w1 = previewSizes.get(0).width;
+        int h1 = previewSizes.get(0).height;
+        String cam_height = Integer.toString(h1);
+        String cam_width = Integer.toString(w1);
         String CameraResolution = cam_width + "x" + cam_height;
         Log.e(TAG, "surfaceChanged(): CameraResolution : (Acquired) " + CameraResolution);
 
@@ -220,11 +222,14 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
          * Get the current Resolution of the Camera and set those parameters to the current camera
          * Save then to a String called CameraResolution
          */
-        String camResolution = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("pref_cameraResolution", getResources().getString(R.string.pref_defaultValue_cameraResolution));
-//        String camResolution = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(CameraResolution, CameraResolution);
+//        String camResolution = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("pref_cameraResolution", getResources().getString(R.string.pref_defaultValue_cameraResolution));
+        String camResolution = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(CameraResolution, CameraResolution);
+        Log.e(TAG, "camResolutioasdasdasodashdjkhid: " + camResolution);
         String[] dims = camResolution.split("x", 2);
         Camera.Parameters parameters = camera.getParameters();
         Log.e(TAG, "surfaceChanged(): CameraResolution : (Applied) " + Integer.parseInt(dims[0]) + "x" + Integer.parseInt(dims[1]));
+        Log.e(TAG, "  parameters.getSupportedPreviewSizes " + parameters.getPreferredPreviewSizeForVideo());
+
         parameters.setPreviewSize(Integer.parseInt(dims[0]), Integer.parseInt(dims[1]));
         parameters.setPreviewFrameRate(30);
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
